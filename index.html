@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#153f7a">
+<title>ALKÜ Depo Yönetim Portalı</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <img class="logo" src="logo.jpg" alt="ALKÜ logosu">
+    <div><h1>ALKÜ Bilgi İşlem Daire Başkanlığı</h1><p class="subtitle">Ses Sistemi Depo Yönetim Portalı</p></div>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <input id="search" type="search" placeholder="Malzeme, ürün kodu, marka veya model ara…">
+    <button id="showAll" class="btn">Tümünü Göster</button>
+  </section>
+  <section class="stats">
+    <article class="stat"><div class="stat-label">Ürün Çeşidi</div><div id="statKinds" class="stat-value">0</div></article>
+    <article class="stat"><div class="stat-label">Sistem Stoku</div><div id="statSystem" class="stat-value">0</div></article>
+    <article class="stat"><div class="stat-label">Fiziksel Stok</div><div id="statPhysical" class="stat-value">0</div></article>
+    <article class="stat"><div class="stat-label">Eksik</div><div id="statMissing" class="stat-value">0</div></article>
+  </section>
+  <section id="cabinetGrid" class="cabinet-grid"></section>
+  <section class="section-head"><h2 id="sectionTitle">Tüm Envanter</h2><span id="updated" class="updated"></span></section>
+  <section class="table-shell">
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Kod</th><th>Kategori</th><th>Malzeme</th><th>Marka</th><th>Model</th><th>Stok</th><th>Fiziksel</th><th>Dolap</th><th>Durum</th></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </section>
+  <div id="empty" class="empty" hidden>Kayıt bulunamadı.</div>
+</main>
+<footer>Alanya Alaaddin Keykubat Üniversitesi • Bilgi İşlem Daire Başkanlığı</footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
