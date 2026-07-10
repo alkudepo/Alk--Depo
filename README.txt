@@ -1,5 +1,5 @@
 
-ALKÜ DEPO PORTALI V3
+ALKÜ DEPO
 
 Bu sürümde:
 - D1-D4 envanter görünümü
