@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#153f7a">
-<title>ALKÜ Depo </title>
+<title>ALKÜ Depo V4</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
   <div class="brand">
     <div>
       <h1>ALKÜ Bilgi İşlem Daire Başkanlığı</h1>
-      <p>Ses Sistemi Depo </p>
+      <p>Ses Sistemi Depo Yönetim Sistemi — V4</p>
     </div>
   </div>
 </header>
@@ -20,6 +20,7 @@
 <main>
   <section class="toolbar">
     <input id="search" placeholder="Malzeme, ürün kodu, marka veya model ara">
+    <button class="success" id="addBtn">+ Malzeme Ekle</button>
     <button class="primary" id="giveBtn">Malzeme Ver</button>
     <button class="accent" id="receiveBtn">Teslim Al</button>
   </section>
@@ -28,7 +29,7 @@
     <div class="stat"><span>Ürün Çeşidi</span><strong id="statKinds">0</strong></div>
     <div class="stat"><span>Sistem Stoku</span><strong id="statSystem">0</strong></div>
     <div class="stat"><span>Fiziksel Stok</span><strong id="statPhysical">0</strong></div>
-    <div class="stat"><span>Eksik</span><strong id="statMissing">0</strong></div>
+    <div class="stat"><span>Eksik Adet</span><strong id="statMissing">0</strong></div>
   </section>
 
   <section id="cabinetTabs" class="tabs"></section>
@@ -39,9 +40,12 @@
       <button class="ghost" id="resetBtn">Tümünü Göster</button>
     </div>
     <div class="table-wrap">
-      <table>
+      <table class="inventory-table">
         <thead>
-          <tr><th>Kod</th><th>Kategori</th><th>Malzeme</th><th>Marka</th><th>Model</th><th>Sistem</th><th>Fiziksel</th><th>Dolap</th><th>Durum</th></tr>
+          <tr>
+            <th>Kod</th><th>Kategori</th><th>Malzeme</th><th>Marka</th><th>Model</th>
+            <th>Sistem</th><th>Fiziksel</th><th>Dolap</th><th>Durum</th><th>İşlemler</th>
+          </tr>
         </thead>
         <tbody id="inventoryBody"></tbody>
       </table>
@@ -50,7 +54,7 @@
 
   <section class="panel">
     <div class="panel-head">
-      <h2>Hareket Geçmişi</h2>
+      <h2>Hareket ve Sayım Geçmişi</h2>
       <div class="head-actions">
         <button class="ghost" id="exportBtn">Yedek İndir</button>
         <label class="ghost file-label">Yedek Yükle<input id="importInput" type="file" accept=".json"></label>
@@ -59,7 +63,7 @@
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>Tarih</th><th>İşlem</th><th>Malzeme</th><th>Adet</th><th>Kişi</th><th>Birim/Etkinlik</th><th>İşlemi Yapan</th><th>Durum</th></tr>
+          <tr><th>Tarih</th><th>İşlem</th><th>Malzeme</th><th>Değişiklik/Adet</th><th>Kişi</th><th>Birim/Etkinlik</th><th>İşlemi Yapan</th><th>Durum</th></tr>
         </thead>
         <tbody id="movementBody"></tbody>
       </table>
@@ -67,6 +71,7 @@
   </section>
 </main>
 
+<!-- Malzeme Ver -->
 <div class="modal" id="giveModal">
   <div class="dialog">
     <h3>Malzeme Ver</h3>
@@ -88,6 +93,7 @@
   </div>
 </div>
 
+<!-- Teslim Al -->
 <div class="modal" id="receiveModal">
   <div class="dialog">
     <h3>Teslim Al</h3>
@@ -98,6 +104,63 @@
     <div class="actions">
       <button class="ghost" data-close="receiveModal">İptal</button>
       <button class="accent" id="saveReceive">İadeyi Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- Fiziksel Sayım -->
+<div class="modal" id="countModal">
+  <div class="dialog small-dialog">
+    <h3>Fiziksel Sayımı Güncelle</h3>
+    <p class="item-title" id="countItemTitle"></p>
+    <div class="count-summary">
+      <div><span>Sistem</span><strong id="countSystem">0</strong></div>
+      <div><span>Mevcut fiziksel</span><strong id="countOldPhysical">0</strong></div>
+    </div>
+    <label>Yeni fiziksel sayı<input id="countPhysical" type="number" min="0"></label>
+    <label>İşlemi yapan<input id="countOperator" placeholder="Ad Soyad"></label>
+    <label>Not<textarea id="countNote" rows="3" placeholder="Örn. Yeniden sayıldı"></textarea></label>
+    <div class="actions">
+      <button class="ghost" data-close="countModal">İptal</button>
+      <button class="primary" id="saveCount">Sayımı Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- Malzeme Ekle / Düzenle -->
+<div class="modal" id="itemModal">
+  <div class="dialog">
+    <h3 id="itemModalTitle">Malzeme Ekle</h3>
+    <input id="editOriginalCode" type="hidden">
+    <div class="grid2">
+      <label>Ürün kodu<input id="itemCode" placeholder="Örn. MK015"></label>
+      <label>Kategori<input id="itemCategory" placeholder="Örn. Mikrofon"></label>
+    </div>
+    <label>Malzeme adı<input id="itemName" placeholder="Malzeme adı"></label>
+    <div class="grid2">
+      <label>Marka<input id="itemBrand" placeholder="Marka"></label>
+      <label>Model<input id="itemModel" placeholder="Model"></label>
+    </div>
+    <div class="grid2">
+      <label>Sistem stoku<input id="itemSystem" type="number" min="0" value="0"></label>
+      <label>Fiziksel stok<input id="itemPhysical" type="number" min="0" value="0"></label>
+    </div>
+    <div class="grid2">
+      <label>Dolap
+        <select id="itemCabinet">
+          <option>D1</option><option>D2</option><option>D3</option><option>D4</option>
+        </select>
+      </label>
+      <label>Kullanım
+        <select id="itemUsage">
+          <option>Aktif</option><option>Kilitli</option><option>Pasif / Kontrol</option>
+        </select>
+      </label>
+    </div>
+    <label>İşlemi yapan<input id="itemOperator" placeholder="Ad Soyad"></label>
+    <div class="actions">
+      <button class="ghost" data-close="itemModal">İptal</button>
+      <button class="success" id="saveItem">Kaydet</button>
     </div>
   </div>
 </div>
