@@ -1,21 +1,33 @@
+ALKÜ DEPO YÖNETİM SİSTEMİ — V4
 
-ALKÜ DEPO
+YENİ ÖZELLİKLER
+- Fiziksel sayımı doğrudan siteden güncelleme
+- Depoda / Eksik / Fazla durumunu otomatik hesaplama
+- Yeni malzeme ekleme
+- Malzeme düzenleme
+- Malzeme silme
+- Sayım ve düzenleme işlemlerini hareket geçmişine kaydetme
+- V3 localStorage verilerini otomatik olarak V4'e taşıma
+- JSON yedek indirme ve yükleme
 
-Bu sürümde:
-- D1-D4 envanter görünümü
-- Malzeme Ver
-- Teslim Al
-- Hareket geçmişi
-- Fiziksel stok otomatik düşürme/yükseltme
-- JSON yedek indirme/yükleme
+GITHUB'A YÜKLEME
+1. Alk--Depo GitHub deposunu açın.
+2. Mevcut index.html, app.js, styles.css ve data.js dosyalarını silin veya üzerlerine yazın.
+3. Bu ZIP içindeki dört dosyayı yükleyin:
+   - index.html
+   - app.js
+   - styles.css
+   - data.js
+4. Commit changes düğmesine basın.
+5. Birkaç dakika sonra siteyi yenileyin:
+   https://alkudepo.github.io/Alk--Depo/
 
-GitHub yükleme:
-1. Eski index.html, app.js/uygulama.js, styles.css/stiller.css ve data.js dosyalarını silin.
-2. Bu klasördeki index.html, styles.css, app.js ve data.js dosyalarını yükleyin.
-3. Commit changes deyin.
+ÖNEMLİ
+Bu sürüm kayıtları tarayıcının localStorage alanında saklar.
+Aynı cihaz ve aynı tarayıcıda kalıcıdır.
+Başka telefon veya bilgisayarlarla canlı senkronize olmaz.
+Düzenli olarak “Yedek İndir” düğmesiyle JSON yedeği alın.
 
-ÖNEMLİ:
-Bu sürüm verileri tarayıcının localStorage alanında tutar.
-Aynı bilgisayar ve aynı tarayıcıda kalıcıdır.
-Farklı telefon veya bilgisayarlar arasında otomatik senkronizasyon yapmaz.
-Paylaşımlı canlı senkronizasyon için Google Sheets / Apps Script kurulumu gerekir.
+İLK KULLANIM
+Eski V3 veriniz aynı tarayıcıdaysa V4 ilk açılışta otomatik olarak taşır.
+Site eski görünürse Ctrl+F5 ile zorla yenileyin.
